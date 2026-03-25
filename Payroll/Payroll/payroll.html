@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayRoll Edge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background-color: #ffffff; /* White background */
+      color: #b30000; /* Dark red text */
+    }
+
+    header {
+      background-color: #b30000; /* Red header */
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #ffffff; /* White text in header */
+    }
+
+    nav a {
+      color: #ffffff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffcccc; /* Light red hover */
+    }
+
+    .container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #ffcccc; /* Light red cards */
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      color: #b30000; /* Dark red icons/text */
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      background-color: #ff9999; /* Slightly darker red on hover */
+    }
+
+    .card i {
+      font-size: 32px;
+      color: #b30000;
+    }
+
+    .security {
+      display: flex;
+      align-items: center;
+    }
+
+    .security i {
+      font-size: 28px;
+      margin-left: 15px;
+      cursor: pointer;
+      color: #ffffff; /* White icons */
+      transition: transform 0.2s;
+    }
+
+    .security i:hover {
+      transform: scale(1.2);
+      color: #ffcccc;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: #ffcccc; /* Light red modal */
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 80%;
+      text-align: center;
+      position: relative;
+      color: #b30000; /* Dark red text inside modal */
+      animation: slideDown 0.3s;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      color: #b30000;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #b30000;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+      from {transform: translateY(-20px);}
+      to {transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PayRoll Edge</h1>
+    <nav>
+      <a href="#">Staff</a>
+      <a href="#">Timesheets</a>
+      <a href="#">Payslips</a>
+      <a href="#">Tax View</a>
+    </nav>
+    <div class="security">
+      <i class="fas fa-fingerprint" title="Fingerprint Login" onclick="login('Fingerprint')"></i>
+      <i class="fas fa-face-smile" title="FaceID Login" onclick="login('FaceID')"></i>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card" onclick="openModal('Staff Directory')">
+      <span>Staff Directory</span>
+      <i class="fas fa-users"></i>
+    </div>
+    <div class="card" onclick="openModal('Timesheets')">
+      <span>Timesheets</span>
+      <i class="fas fa-clock"></i>
+    </div>
+    <div class="card" onclick="openModal('Payslips')">
+      <span>Payslips</span>
+      <i class="fas fa-file-invoice-dollar"></i>
+    </div>
+    <div class="card" onclick="openModal('Tax View')">
+      <span>Tax View</span>
+      <i class="fas fa-chart-line"></i>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p>This is a demo content for <span id="modal-module"></span>.</p>
+    </div>
+  </div>
+
+  <script>
+    // Open modal function
+    function openModal(moduleName) {
+      document.getElementById('modal').style.display = 'flex';
+      document.getElementById('modal-title').innerText = moduleName;
+      document.getElementById('modal-module').innerText = moduleName;
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // Simulated login
+    function login(method) {
+      alert(method + " login successful!");
+    }
+
+    // Close modal when clicking outside content
+    window.onclick = function(event) {
+      const modal = document.getElementById('modal');
+      if(event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+
+</body>
+</html>
