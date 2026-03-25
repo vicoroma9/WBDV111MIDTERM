@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RVCRbeats</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, purple, black);
+        }
+
+        /* --- LOGIN PAGE --- */
+        #loginPage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: white;
+            width: 350px;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(purple);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .small-text, .link {
+            font-size: 13px;
+            margin-top: 10px;
+            color: gray;
+        }
+
+        #error {
+            color: red;
+            margin-top: 5px;
+        }
+
+        /* --- MUSIC PAGE --- */
+        #musicPage {
+            display: none;
+            height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #111;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar li:hover {
+            background: #1db954;
+        }
+
+        .logout {
+            margin-top: 20px;
+            padding: 8px 15px;
+            background: red;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .player {
+            flex: 1;
+            padding: 50px;
+            text-align: center;
+            color: white;
+            background: #222;
+        }
+
+        .player img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 80%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+<div id="loginPage">
+    <div class="login-box">
+        <div class="icon"><img src="icon.png" width="150" height="150"></div>
+        <h1>RVCR<span>beats</span></h1>
+        <p class="subtitle"><marquee>Warming up the speakers...</marquee></p>
+
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+
+        <button class="btn" onclick="login()">Sign In</button>
+        <p id="error"></p>
+
+        <div class="small-text">Forgot Password?</div>
+        <div class="link">Register</div>
+    </div>
+</div>
+
+<div id="musicPage">
+    <div class="sidebar">
+        <h2>Library</h2>
+        <ul id="songList">
+
+        </ul>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="player">
+        <h2 id="nowPlaying">Select a song</h2>
+        <img id="albumArt" src="" alt="Album Art">
+        <audio id="audioPlayer" controls></audio>
+    </div>
+</div>
+
+<script>
+    function login(){
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+
+        if(user === "username" && pass === "password"){
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("musicPage").style.display = "flex";
+        } else {
+            document.getElementById("error").innerText = "Invalid login!";
+        }
+    }
+
+    function logout(){
+        document.getElementById("musicPage").style.display = "none";
+        document.getElementById("loginPage").style.display = "flex";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("error").innerText = "";
+    }
+
+    const songs = [
+        {name: "Crazier - Taylor Swift", file:"crazier.mp3", image:"crazier.jpg"},
+        {name: "Zack Tabudlo - Give Me Your Forever", file:"givemeyourforever.mp3", image:"forever.jpg"},
+        {name: "TJ Monterde - Ikaw at Ako", file:"ikawatako.mp3", image:"ikawatako.jpg"},
+        {name: "Old Love - Yuji / Putri Dahlia", file:"oldlove.mp3", image:"oldlove.jpg"},
+        {name: "Parokya ni Edgar-One and Only You", file:"oneandonlyyou.mp3", image:"yousong.jpg"}
+    ];
+
+    const songList = document.getElementById("songList");
+    songs.forEach((song, index)=>{
+        const li = document.createElement("li");
+        li.innerText = song.name;
+        li.onclick = ()=>playSong(index);
+        songList.appendChild(li);
+    });
+
+    function playSong(index){
+        const player = document.getElementById("audioPlayer");
+        const nowPlaying = document.getElementById("nowPlaying");
+        const albumArt = document.getElementById("albumArt");
+
+        player.src = songs[index].file;
+        albumArt.src = songs[index].image;
+        nowPlaying.innerText = "Now Playing: " + songs[index].name;
+        player.play();
+    }
+</script>
+
+</body>
+</html>
