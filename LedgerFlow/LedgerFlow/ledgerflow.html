@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LedgerFlow</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#30546e;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    width:400px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+}
+
+input, select, button{
+    width:100%;
+    padding:8px;
+    margin-top:8px;
+}
+
+button{
+    background:#007bff;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+table{
+    width:100%;
+    margin-top:15px;
+    border-collapse:collapse;
+}
+
+th, td{
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#30546e;
+    color:white;
+}
+
+.income{
+    color:green;
+}
+
+.expense{
+    color:red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2><img src=icon.png width=400 height=90></h2>
+
+<input type="text" id="desc" placeholder="Description">
+
+<select id="type">
+<option value="income">Income</option>
+<option value="expense">Expense</option>
+</select>
+
+<input type="number" id="amount" placeholder="Amount">
+
+<button onclick="addTransaction()">Add</button>
+
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Type</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody id="ledgerTable">
+</tbody>
+</table>
+
+<h3>Total Balance: ₱<span id="balance">0</span></h3>
+</div>
+
+<script>
+let balance = 0;
+
+function addTransaction(){
+    let desc = document.getElementById("desc").value;
+    let type = document.getElementById("type").value;
+    let amount = parseFloat(document.getElementById("amount").value);
+
+    if(desc === "" || isNaN(amount)){
+        alert("Please fill all fields");
+        return;
+    }
+
+    let table = document.getElementById("ledgerTable");
+    let row = table.insertRow();
+
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+
+    cell1.innerText = desc;
+    cell2.innerText = type;
+    cell3.innerText = amount;
+
+    if(type === "income"){
+        balance += amount;
+        cell3.classList.add("income");
+    }else{
+        balance -= amount;
+        cell3.classList.add("expense");
+    }
+
+    document.getElementById("balance").innerText = balance;
+
+    document.getElementById("desc").value = "";
+    document.getElementById("amount").value = "";
+}
+</script>
+
+</body>
+</html>
