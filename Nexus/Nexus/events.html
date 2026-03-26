@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events | Nexus</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<script>
+// PROTECT PAGE: only logged in users
+if(localStorage.getItem("login") !== "true") {
+  alert("Please log in first!");
+  window.location.href = "login.html";
+}
+</script>
+
+<header>
+  <h1 class="logo">NEXUS</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="events.html">Events</a>
+    <a href="contact.html">Contact</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Our Exciting Events</h1>
+  <p>Join the fun and test your skills!</p>
+</section>
+
+<section class="cards" id="eventCards">
+  <!-- Event cards injected here by JS -->
+</section>
+
+<script>
+// LOGOUT FUNCTION
+function logout() {
+  localStorage.removeItem("login");
+  window.location.href = "login.html";
+}
+
+// EVENTS DATA
+const events = [
+  {
+    id: 1,
+    title: "IT Quiz Bee",
+    description: "Challenge your IT knowledge in this fast-paced and exciting quiz competition!",
+    image: "quizzbee.png"
+  },
+  {
+    id: 2,
+    title: "Game Exhibits/Development",
+    description: "This event is a celebration of imagination, technology, and the future of interactive entertainment!",
+    image: "game.png"
+  },
+  {
+    id: 3,
+    title: "IT Talent Showcases",
+    description: "Experience the fusion of talent and technology as participants bring their digital visions to life!",
+    image: "IT.png"
+  }
+];
+
+// RENDER EVENT CARDS
+function renderEvents() {
+  const container = document.getElementById("eventCards");
+  let html = "";
+  events.forEach(ev => {
+    html += `
+      <div class="card">
+        <img src="${ev.image}" alt="${ev.title}" style="width:100%; border-radius:10px; margin-bottom:15px;">
+        <h3>${ev.title}</h3>
+        <p>${ev.description}</p>
+        <button onclick="book(${ev.id})">Book Ticket</button>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+// BOOK TICKET FUNCTION
+function book(id) {
+  let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+  let event = events.find(e => e.id === id);
+  tickets.push({ event: event.title, date: new Date().toLocaleString() });
+  localStorage.setItem("tickets", JSON.stringify(tickets));
+  alert("🎟️ Ticket booked for " + event.title);
+}
+
+// CALL RENDER ON LOAD
+window.onload = function() {
+  renderEvents();
+};
+</script>
+
+</body>
+</html>

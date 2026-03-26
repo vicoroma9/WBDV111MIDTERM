@@ -1,0 +1,244 @@
+/* RESET & BASE */
+body {
+  margin: 0;
+  font-family: 'Orbitron', Arial, sans-serif;
+  color: #00f7ff;
+  text-align: center;
+  background: radial-gradient(circle at center, #01020a, #000000);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ROTATING ENERGY RINGS */
+body::before {
+  content: "";
+  position: fixed;
+  width: 250%;
+  height: 250%;
+  top: -75%;
+  left: -75%;
+  background: conic-gradient(from 0deg, transparent, #00f7ff33, transparent 80%);
+  animation: rotateBg 30s linear infinite;
+  z-index: -2;
+}
+
+/* HUD GRID LINES */
+body::after {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(#00f7ff11 1px, transparent 1px),
+    linear-gradient(90deg, #00f7ff11 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+/* HERO SCANNING LINE */
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: #00f7ff;
+  top: 0;
+  left: 0;
+  animation: scan 4s linear infinite;
+  box-shadow: 0 0 15px #00f7ff;
+}
+
+/* ANIMATIONS */
+@keyframes rotateBg {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scan {
+  0% { top: 0; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 50px;
+  border-bottom: 1px solid #00f7ff44;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(12px);
+}
+
+/* LOGO */
+.logo {
+  font-size: 28px;
+  letter-spacing: 4px;
+  font-weight: bold;
+  text-shadow: 0 0 15px #00f7ff, 0 0 25px #00f7ff, 0 0 40px #00e5ff;
+}
+
+/* NAV LINKS */
+nav a {
+  color: #ccefff;
+  margin: 10px 15px;
+  text-decoration: none;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* NAV UNDERLINE GLOW */
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -6px;
+  background: #00f7ff;
+  transition: 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+nav a:hover {
+  color: #00f7ff;
+  text-shadow: 0 0 12px #00f7ff, 0 0 20px #00e5ff;
+}
+
+/* HERO */
+.hero {
+  margin-top: 140px;
+  position: relative;
+}
+
+.hero h1 {
+  font-size: 56px;
+  letter-spacing: 3px;
+  color: #00f7ff;
+  text-shadow:
+    0 0 10px #00f7ff,
+    0 0 20px #00e5ff,
+    0 0 40px #0077ff,
+    0 0 60px #00f7ff77;
+}
+
+.hero p {
+  color: #aeefff;
+  font-size: 18px;
+  margin-bottom: 25px;
+  text-shadow: 0 0 8px #00f7ff33;
+}
+
+/* BUTTON */
+button {
+  border: 2px solid #00f7ff;
+  background: rgba(0,0,0,0.2);
+  color: #00f7ff;
+  padding: 14px 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s;
+  box-shadow: 0 0 12px #00f7ff44, 0 0 20px #00e5ff22 inset;
+}
+
+button:hover {
+  background: #00f7ff;
+  color: black;
+  box-shadow: 0 0 35px #00f7ff, 0 0 60px #00e5ff;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 20px;
+  padding: 35px;
+  border-radius: 18px;
+  background: rgba(0,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid #00f7ff33;
+  box-shadow: 0 0 25px #00f7ff22;
+  transition: 0.3s;
+  position: relative;
+}
+
+.card::before, .card::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00f7ff;
+}
+
+.card::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.card::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 35px #00f7ff55, 0 0 50px #00e5ff33 inset;
+}
+
+/* LOGIN BOX */
+.login-box {
+  width: 320px;
+  margin: 150px auto;
+  padding: 35px;
+  border-radius: 22px;
+  background: rgba(0,255,255,0.05);
+  backdrop-filter: blur(18px);
+  border: 1px solid #00f7ff33;
+  box-shadow: 0 0 30px #00f7ff33;
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+
+.login-box h2 {
+  color: #00f7ff;
+  margin-bottom: 22px;
+  text-shadow: 0 0 12px #00f7ff, 0 0 20px #00e5ff;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 12px;
+  background: rgba(0,255,255,0.08);
+  color: white;
+  outline: none;
+}
+
+.login-box input:focus {
+  box-shadow: 0 0 12px #00f7ff, 0 0 20px #00e5ff;
+}
+
+.login-box button {
+  margin-top: 12px;
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

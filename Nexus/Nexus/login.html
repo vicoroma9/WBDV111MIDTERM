@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nexus Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="login-box" id="loginBox">
+  <h2>Admin Login</h2>
+
+  <input type="text" id="user" placeholder="Username">
+
+  <div class="password-wrap">
+    <input type="password" id="pass" placeholder="Password">
+    <span onclick="togglePass()">👁</span>
+  </div>
+
+  <button onclick="login()">Login</button>
+
+  <p id="errorMsg"></p>
+</div>
+
+<script>
+// login function
+function login() {
+  let u = document.getElementById("user").value.trim();
+  let p = document.getElementById("pass").value.trim();
+  let box = document.getElementById("loginBox");
+  let error = document.getElementById("errorMsg");
+
+  if(u === "admin" && p === "password") {
+    // mark user as logged in
+    localStorage.setItem("login", "true");
+    // redirect to homepage
+    window.location.href = "index.html";
+  } else {
+    error.textContent = "Invalid username or password!";
+    box.classList.add("shake");
+    setTimeout(() => { box.classList.remove("shake"); }, 300);
+  }
+}
+
+// show/hide password
+function togglePass() {
+  let p = document.getElementById("pass");
+  p.type = (p.type === "password") ? "text" : "password";
+}
+
+// auto-focus
+window.onload = function() {
+  document.getElementById("user").focus();
+};
+</script>
+</body>
+</html>
