@@ -1,0 +1,235 @@
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	<meta charset="UTF-8">
+	<title>StockMaster Industrial | Dark Edition</title>
+	<style>
+		:root {
+			--sm-blue: #007bff;
+			--bg-dark-sidebar: #0a0c10;
+			--bg-dark-main: #161b22;
+			--bg-card: #0d1117;
+			--text-main: #c9d1d9;
+			--text-muted: #8b949e;
+			--border-color: #30363d;
+			--accent-orange: #f78166;
+		}
+
+		body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg-dark-main); color: var(--text-main); }
+
+		/* SIDEBAR */
+		#sidebar { width: 260px; background: var(--bg-dark-sidebar); display: none; flex-direction: column; border-right: 1px solid var(--border-color); }
+		.sidebar-header { padding: 30px 20px; font-size: 22px; font-weight: bold; color: var(--sm-blue); text-align: center; border-bottom: 1px solid var(--border-color); }
+		.nav-list { flex-grow: 1; padding-top: 20px; }
+		.nav-item { width: 100%; padding: 15px 25px; border: none; background: transparent; color: var(--text-muted); text-align: left; font-size: 16px; cursor: pointer; transition: 0.3s; }
+		.nav-item:hover, .nav-item.active { background: #21262d; color: white; border-left: 4px solid var(--accent-orange); }
+
+		/* MAIN PANEL */
+		#main-panel { flex-grow: 1; display: none; flex-direction: column; overflow-y: auto; }
+		header { background: var(--bg-card); padding: 20px 40px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+		
+		/* CONTENT */
+		.tab-content { display: none; padding: 30px 40px; }
+		.tab-content.active { display: block; }
+		
+		/* CARDS & TABLES */
+		.table-card { background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); overflow: hidden; }
+		table { width: 100%; border-collapse: collapse; }
+		th { background: #161b22; text-align: left; padding: 15px 20px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); }
+		td { padding: 15px 20px; border-bottom: 1px solid var(--border-color); }
+
+		/* BADGES */
+		.badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; border: 1px solid transparent; }
+		.bg-success { background: #0e4429; color: #3fb950; border-color: #2ea043; }
+		.bg-warning { background: #4d3d00; color: #d29922; border-color: #9e7a1c; }
+		.bg-danger { background: #490e0e; color: #f85149; border-color: #da3633; }
+
+		/* LOGIN OVERLAY */
+		#login-overlay { position: fixed; inset: 0; background: #0d1117; display: flex; justify-content: center; align-items: center; z-index: 1000; }
+		.login-form { background: #161b22; padding: 40px; border-radius: 10px; width: 320px; text-align: center; border: 1px solid var(--border-color); }
+		.login-form input { width: 100%; padding: 12px; margin: 8px 0; background: #0d1117; border: 1px solid var(--border-color); color: white; border-radius: 6px; box-sizing: border-box; }
+		.login-form button { width: 100%; padding: 12px; background: var(--sm-blue); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+	</style>
+	</head>
+	<body>
+
+	<div id="login-overlay">
+		<div class="login-form">
+			<h2 style="color: var(--sm-blue)">STOCKMASTER</h2>
+			<input type="text" id="user" placeholder="Username">
+			<input type="password" id="pass" placeholder="Password">
+			<button onclick="handleLogin()">ACCESS SYSTEM</button>
+		</div>
+	</div>
+
+	<div id="sidebar">
+		<div class="sidebar-header">STOCKMASTER</div>
+		<nav class="nav-list">
+			<button class="nav-item active" onclick="changeTab('inventory', this)">Stock Inventory</button>
+			<button class="nav-item" onclick="changeTab('suppliers', this)">Suppliers</button>
+			<button class="nav-item" onclick="changeTab('orders', this)">Orders</button>
+			<button class="nav-item" onclick="changeTab('reports', this)">Reports</button>
+			<button class="nav-item" onclick="changeTab('information', this)">Information</button>
+		</nav>
+		<div style="padding: 20px;"><button class="nav-item" style="color: var(--accent-orange);" onclick="location.reload()">LOG OUT</button></div>
+	</div>
+
+	<div id="main-panel">
+		<header>
+			<h1 class="page-title" id="active-title">Stock Inventory</h1>
+		</header>
+
+		<div id="inventory" class="tab-content active">
+			<div class="table-card">
+				<table>
+					<thead><tr><th>SKU</th><th>Item Name</th><th>Category</th><th>Quantity</th><th>Status</th><th>Action</th></tr></thead>
+					<tbody id="inventory-body">
+		<tr>
+			<td>KIT-001</td>
+			<td>Precision Chef Knife</td>
+			<td>Tools</td>
+			<td id="qty-001">5,000</td>
+			<td><span class="badge bg-success">In Stock</span></td>
+			<td onclick="editStock('qty-001')" style="color:var(--sm-blue); cursor:pointer; font-weight:bold;">EDIT</td>
+		</tr>
+		<tr>
+			<td>KIT-042</td>
+			<td>Acacia Cutting Board</td>
+			<td>Hardware</td>
+			<td id="qty-042">15</td>
+			<td><span class="badge bg-warning">Low Stock</span></td>
+			<td onclick="editStock('qty-042')" style="color:var(--sm-blue); cursor:pointer; font-weight:bold;">EDIT</td>
+		</tr>
+		<tr>
+			<td>KIT-105</td>
+			<td>Nonstick Frying Pan</td>
+			<td>Cookware</td>
+			<td id="qty-105">42</td>
+			<td><span class="badge bg-success">In Stock</span></td>
+			<td onclick="editStock('qty-105')" style="color:var(--sm-blue); cursor:pointer; font-weight:bold;">EDIT</td>
+		</tr>
+	</tbody>
+				</table>
+			</div>
+		</div>
+	<div id="suppliers" class="tab-content">
+		<div class="table-card">
+			<table>
+				<thead>
+					<tr>
+						<th>Supplier Name</th>
+						<th>Contact Person</th>
+						<th>Category</th>
+						<th>Lead Time</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>SteelWorks Inc.</td>
+						<td>Nino Balladares</td>
+						<td>Industrial Tools</td>
+						<td>3-5 Days</td>
+						<td><span class="badge bg-success">Active</span></td>
+					</tr>
+					<tr>
+						<td>Global Kitchen Supply</td>
+						<td>Joey Magquilat</td>
+						<td>Kitchenware</td>
+						<td>7 Days</td>
+						<td><span class="badge bg-success">Active</span></td>
+					</tr>
+					<tr>
+						<td>Elite Cookware Ph</td>
+						<td>James Enricoso</td>
+						<td>Cookware</td>
+						<td>10 Days</td>
+						<td><span class="badge bg-warning">Pending Review</span></td>
+					</tr>
+					<tr>
+						<td>Acacia Woods Corp</td>
+						<td>Dustin Cristobal</td>
+						<td>Hardware</td>
+						<td>2 Weeks</td>
+						<td><span class="badge bg-success">Active</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+		<div id="orders" class="tab-content"><p style="color: var(--text-muted)">No active orders recorded.</p></div>
+		<div id="reports" class="tab-content"><p style="color: var(--text-muted)">No reports generated for this period.</p></div>
+
+		<div id="information" class="tab-content">
+			<div style="background: var(--bg-card); padding: 30px; border-radius: 8px; border: 1px solid var(--border-color);">
+				<h2 style="color: var(--sm-blue); margin-top:0;">About StockMaster</h2>
+				<p>StockMaster is a professional-grade industrial inventory management system designed for real-time tracking of kitchen assets and hardware supply chains.</p>
+				<ul style="line-height: 2;">
+					<li><b>Efficiency:</b> Streamlined stock monitoring.</li>
+					<li><b>Precision:</b> Accurate SKU and quantity management.</li>
+					<li><b>Control:</b> Integrated supplier and logistics oversight.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+<script>
+function handleLogin() {
+
+    const userField = document.getElementById('user');
+    const passField = document.getElementById('pass');
+    
+    const username = userField.value;
+    const password = passField.value;
+
+
+    const CORRECT_USER = "admin";
+    const CORRECT_PASS = "1234";
+
+
+    if (username === CORRECT_USER && password === CORRECT_PASS) {
+
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('sidebar').style.display = 'flex';
+        document.getElementById('main-panel').style.display = 'flex';
+        console.log("Login successful.");
+    } else {
+
+        alert("Access Denied: Invalid Username or Password.");
+        passField.value = ""; 
+        passField.focus();    
+    }
+}
+
+
+document.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+
+        if (document.getElementById('login-overlay').style.display !== 'none') {
+            handleLogin();
+        }
+    }
+});
+
+function changeTab(id, el) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('active-title').innerText = el.innerText;
+}
+
+function editStock(id) {
+    let newQty = prompt("Enter new quantity for this item:");
+
+    if (newQty !== null && newQty.trim() !== "" && !isNaN(newQty)) {
+        document.getElementById(id).innerText = Number(newQty).toLocaleString();
+        alert("Stock updated successfully!");
+    } else if (newQty !== null) {
+        alert("Please enter a valid number.");
+    }
+}
+</script>
+	</body>
+	</html>
