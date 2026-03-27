@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SwiftCart Dashboard</title>
+<style>
+    /* BODY & LAYOUT */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background: #1e1e2f;
+        color: #e0e0e0;
+        overflow-x: hidden;
+    }
+
+    /* CENTER LOGIN - Hidden after login */
+    #loginContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #1e1e2f;
+        z-index: 1000;
+    }
+
+    #loginPage {
+        width: 360px;
+        padding: 40px;
+        background: #2c2c3c;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        text-align: center;
+    }
+
+    #loginPage h2 { color: #00d8ff; margin-bottom: 25px; }
+
+    #loginPage input {
+        width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;
+        border: 1px solid #444; background: #1e1e2f; color: #fff;
+        box-sizing: border-box; /* Prevents input from spilling out */
+    }
+
+    #loginPage button {
+        width: 100%; padding: 12px; border: none; border-radius: 8px;
+        background: #00d8ff; color: #1e1e2f; font-weight: bold;
+        cursor: pointer; margin-top: 15px; transition: 0.3s;
+    }
+
+    #loginPage button:hover { background: #00b0cc; transform: translateY(-2px); }
+
+    /* DASHBOARD AREA - Hidden by default */
+    #dashboard {
+        display: none; /* Show this only after login */
+    }
+
+    /* SIDEBAR */
+    #sidebar {
+        position: fixed;
+        top: 0; left: 0;
+        width: 240px; height: 100vh;
+        background: #2c2c3c;
+        padding-top: 30px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+    }
+
+    #sidebar button {
+        padding: 15px 25px; margin: 5px 15px; border: none;
+        border-radius: 10px; background: transparent; color: #b0b0b0;
+        font-size: 16px; text-align: left; cursor: pointer; transition: 0.3s;
+    }
+
+    #sidebar button:hover, #sidebar button.active-nav { 
+        background: #00d8ff; color: #1e1e2f; font-weight: bold;
+    }
+
+    /* MAIN CONTENT AREA */
+    #content {
+        margin-left: 240px; /* Space for sidebar */
+        padding: 40px;
+        min-height: 100vh;
+    }
+
+    .tab { display: none; animation: fadeIn 0.4s ease; }
+    .tab.active { display: block; }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CONTENT STYLING */
+    h2 { color: #00d8ff; font-size: 2rem; margin-bottom: 20px; }
+    .hero-img { 
+        max-width: 800px; width: 100%; border-radius: 15px; 
+        box-shadow: 0 5px 20px rgba(0,0,0,0.4); margin: 20px 0;
+    }
+</style>
+</head>
+<body>
+
+<div id="loginContainer">
+    <div id="loginPage">
+        <h2>SwiftCart Login</h2>
+        <input type="text" id="username" placeholder="Username" value="admin">
+        <input type="password" id="password" placeholder="Password" value="swift123">
+        <button onclick="login()">Sign In</button>
+        <p id="loginError" style="color: #ff6b6b; margin-top: 15px;"></p>
+    </div>
+</div>
+
+<div id="dashboard">
+    <div id="sidebar">
+        <h3 style="text-align:center; color:#00d8ff; margin-bottom:20px;">SwiftCart</h3>
+        <button onclick="showTab('home')" class="nav-btn">🏠 Home</button>
+        <button onclick="showTab('products')" class="nav-btn">📦 Products</button>
+        <button onclick="showTab('cart')" class="nav-btn">🛒 Cart</button>
+        <button onclick="showTab('orders')" class="nav-btn">🚚 Orders</button>
+        <div style="flex-grow: 1;"></div>
+        <button onclick="logout()" style="color: #ff6b6b; margin-bottom: 30px;">🚪 Logout</button>
+    </div>
+
+    <div id="content">
+        <div id="home" class="tab active">
+            <h2>Welcome!</h2>
+            <p>"The kitchen is calling! Explore our latest arrivals in premium cookware."</p>
+            <img src="3.png" alt="SwiftCart Overview" class="hero-img">
+            <div style="background: #2c2c3c; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <p>“Kitchen Essentials – Everything you need to cook with ease and confidence.”</p>
+            </div>
+        </div>
+
+        <div id="products" class="tab">
+    <div class="header-flex">
+        <h2>Kitchen Essentials</h2>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card">
+        <div class="product-info">
+         <h3>Precision Chef Knife Set</h3>
+		<p>Complete Versatility: Includes everything from a heavy-duty Cleaver to a delicate Paring knife.</p>
+		<img src="knife.png" height="550" width="550">
+        <div class="price-row">
+        <span class="price">₱2,195.00</span>
+        <button class="add-btn">Add to Cart</button>
+        </div>
+        </div>
+        </div>
+
+            <div class="product-info">
+                <h3>Nonstick Pan</h3>
+                <p>Induction Ready: High-magnetic base works on Gas, Electric, and Induction stoves.</p>
+				<img src="nonstick.png" height="550" width="550">
+                <div class="price-row">
+                    <span class="price">₱1,839.20</span>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-info">
+                <h3>Acacia Cutting Board</h3>
+                <p>Premium Acacia Wood: High-density grain that resists deep scratches and water absorption.</p>
+				<img src="board.png" height="550" width="550">
+                <div class="price-row">
+                    <span class="price">₱2,780.47</span>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div id="cart" class="tab">
+        <div id="orders" class="tab">
+            <h2>🚚 Recent Orders</h2>
+            <p>Track deliveries and fulfill customer requests.</p>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+function login() {
+    const u = document.getElementById('username').value;
+    const p = document.getElementById('password').value;
+    
+    if(u === 'admin' && p === 'swift123') {
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+    } else {
+        document.getElementById('loginError').innerText = '❌ Invalid Credentials';
+    }
+}
+
+
+function logout() {
+    location.reload();
+}
+
+
+function showTab(tabId) {
+
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active');
+    
+
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active-nav'));
+    event.currentTarget.classList.add('active-nav');
+}
+</script>
+
+</body>
+</html>
