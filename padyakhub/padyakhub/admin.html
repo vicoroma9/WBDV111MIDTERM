@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+    display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:220px;
+    background:#2e7d32;
+    color:white;
+    height:100vh;
+    padding:20px;
+}
+
+.sidebar h2{
+    margin-bottom:20px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+}
+
+.sidebar a:hover{
+    background:#1b5e20;
+    padding-left:10px;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    padding:20px;
+}
+
+.cardbox{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>Admin</h2>
+
+    <a href="login.html">Log Out</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <div class="cardbox">
+        <h2>Admin Dashboard</h2>
+        <p id="track"></p>
+    </div>
+
+    <div class="cardbox">
+        <h3>User Management</h3>
+        <div id="users"></div>
+    </div>
+
+    <div class="cardbox">
+        <h3>Transactions</h3>
+        <div id="orders"></div>
+    </div>
+
+</div>
+
+<script>
+let user = localStorage.getItem("currentUser");
+let role = localStorage.getItem("role");
+
+// security
+if(role !== "admin"){
+    location.href = "login.html";
+}
+
+// tracking
+document.getElementById("track").innerText =
+"Logged in as: " + user + " (" + role + ")";
+
+// data
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+// users
+document.getElementById("users").innerHTML =
+users.map(u => `<p>${u.username} - ${u.role}</p>`).join("");
+
+// orders
+document.getElementById("orders").innerHTML =
+orders.map(o => `<p>${o.user} ordered ${o.items.length} items</p>`).join("");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Receipt</title>
+</head>
+
+<body>
+
+<h2>Receipt</h2>
+
+<div id="items"></div>
+<p id="total"></p>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let items = document.getElementById("items");
+let total = 0;
+
+cart.forEach(i => {
+    items.innerHTML += `<p>${i.name} - ₱${i.price}</p>`;
+    total += i.price;
+});
+
+document.getElementById("total").innerText = "Total: ₱" + total;
+</script>
+
+</body>
+</html>

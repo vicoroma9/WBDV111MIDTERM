@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+
+
+<script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+let superExists = users.some(u => u.username === "superadmin");
+
+if(!superExists){
+    users.push({
+        username: "superadmin",
+        password: "1234",
+        role: "superadmin"
+    });
+
+    localStorage.setItem("users", JSON.stringify(users));
+}
+</script>
+
+</head>
+
+<body>
+
+<header>
+    <h2>Login</h2>
+</header>
+
+<div class="box">
+
+    <h2>Login</h2>
+
+    <input id="user" placeholder="username">
+    <input id="pass" type="password" placeholder="password">
+
+    <select id="role">
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+        <option value="superadmin">superadmin</option>
+    </select>
+
+    <button onclick="login()">Login</button>
+
+    <p style="margin-top:10px;">
+        No account?
+        <a href="register.html">Register here</a>
+    </p>
+
+</div>
+
+<script>
+function login(){
+
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+    let r = document.getElementById("role").value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    let found = users.find(x => 
+        x.username === u && 
+        x.password === p && 
+        x.role === r
+    );
+
+    if(found){
+        localStorage.setItem("currentUser", u);
+        localStorage.setItem("role", r);
+
+        if(r === "user") location.href = "dashboard.html";
+        if(r === "admin") location.href = "admin.html";
+        if(r === "superadmin") location.href = "superadmin.html";
+    } else {
+        alert("Invalid login");
+    }
+}
+</script>
+
+</body>
+</html>
