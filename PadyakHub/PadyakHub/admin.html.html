@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+    display:flex;
+}
+
+.sidebar{
+    width:240px;
+    background:#1b5e20;
+    color:white;
+    height:100vh;
+    padding:20px;
+}
+
+.sidebar h2{
+    margin-bottom:15px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+    cursor:pointer;
+}
+
+.sidebar a:hover{
+    background:#2e7d32;
+    padding-left:10px;
+}
+
+.main{
+    flex:1;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a href="login.html">Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="card">
+        <h2>Admin Dashboard</h2>
+        <p id="track"></p>
+    </div>
+
+    <div class="card">
+        <h3>User Management</h3>
+        <div id="users"></div>
+    </div>
+
+    <div class="card">
+    <h3>Bookings / Transactions</h3>
+    <div id="reportList"></div>
+</div>
+	
+	<div id="orders"></div>
+	<div id="bookings"></div>
+
+</div>
+
+
+
+<script>
+
+let user = localStorage.getItem("currentUser");
+let role = localStorage.getItem("role");
+
+if(!user || role !== "admin"){
+    alert("Access denied!");
+    location.href = "login.html";
+}
+
+document.getElementById("track").innerText =
+"Logged in as: " + user + " (" + role + ")";
+
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+document.getElementById("users").innerHTML =
+users.length ? users.map(u => `<p>${u.username} - ${u.role}</p>`).join("")
+: "No users";
+
+// REPORTS (IMPORTANT FIX)
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+let report = document.getElementById("reportList");
+
+if(report){
+
+    let productOrders = orders.filter(o => o.type === "product");
+
+    report.innerHTML =
+    "<h3>🛒 Orders</h3>" +
+    (productOrders.length
+    ? productOrders.map(o => `
+        <div style="padding:10px;border-bottom:1px solid #eee">
+            👤 ${o.user}<br>
+            🛒 ${o.items.length} items<br>
+            💰 ₱${o.total}<br>
+            📅 ${o.date}
+        </div>
+    `).join("")
+    : "No orders yet")
+
+    + "<hr><h3>🛠 Bookings</h3>" +
+
+    (bookings.length
+    ? bookings.map(b => `
+        <div style="padding:10px;border-bottom:1px solid #eee">
+            👤 ${b.user}<br>
+            🛠 ${b.service}<br>
+            📅 ${b.datetime}<br>
+            📌 ${b.status}
+        </div>
+    `).join("")
+    : "No bookings yet");
+}
+
+</script>
+
+
+
+</body>
+</html>
