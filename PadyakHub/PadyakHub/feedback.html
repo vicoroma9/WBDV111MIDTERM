@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PadyakHub Feedback</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#f4f4f4;
+}
+
+/* NAVBAR */
+header{
+    background:#2e7d32;
+    padding:15px 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+}
+
+nav a{
+    color:white;
+    margin-left:20px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+nav a:hover{
+    text-decoration:underline;
+}
+
+/* HERO */
+.hero{
+    background:#4caf50;
+    color:white;
+    text-align:center;
+    padding:60px;
+}
+
+.hero h2{
+    font-size:35px;
+}
+
+/* CONTAINER */
+.container{
+    width:60%;
+    margin:50px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+/* INPUTS */
+input, textarea, select{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    font-size:16px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1b5e20;
+}
+
+/* FEEDBACK LIST */
+.feedback-box{
+    margin-top:20px;
+}
+
+.item{
+    background:#f9f9f9;
+    padding:10px;
+    margin-bottom:10px;
+    border-left:5px solid #2e7d32;
+}
+
+/* FOOTER */
+footer{
+    background:#2e7d32;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+
+<header>
+    <h1>PadyakHub</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="parts.html">Parts</a>
+        <a href="services.html">Services</a>
+        <a href="feedback.html">Feedback</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+
+<div class="hero">
+    <h2>Customer Feedback</h2>
+    <p>Tell us your experience 🚴</p>
+</div>
+
+
+<div class="container">
+
+    <input type="text" id="name" placeholder="Your Name">
+
+    <select id="rating">
+        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+        <option value="4">⭐⭐⭐⭐ Good</option>
+        <option value="3">⭐⭐⭐ Average</option>
+        <option value="2">⭐⭐ Poor</option>
+        <option value="1">⭐ Very Bad</option>
+    </select>
+
+    <textarea id="comment" rows="4" placeholder="Write your feedback..."></textarea>
+
+    <button onclick="submitFeedback()">Submit Feedback</button>
+
+    <div class="feedback-box" id="feedbackList"></div>
+
+</div>
+
+
+<footer>
+    <p>© 2026 PadyakHub | All Rights Reserved</p>
+</footer>
+
+<script>
+function submitFeedback(){
+    let name = document.getElementById("name").value;
+    let rating = document.getElementById("rating").value;
+    let comment = document.getElementById("comment").value;
+
+    if(name === "" || comment === ""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+    feedbacks.push({
+        name: name,
+        rating: rating,
+        comment: comment
+    });
+
+    localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+
+    alert("Thank you for your feedback!");
+
+    document.getElementById("name").value = "";
+    document.getElementById("comment").value = "";
+
+    displayFeedback();
+}
+
+function displayFeedback(){
+    let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+    let box = document.getElementById("feedbackList");
+
+    box.innerHTML = "";
+
+    feedbacks.forEach(f => {
+        box.innerHTML += `
+            <div class="item">
+                <strong>${f.name}</strong><br>
+                Rating: ${"⭐".repeat(f.rating)}<br>
+                <p>${f.comment}</p>
+            </div>
+        `;
+    });
+}
+
+displayFeedback();
+</script>
+
+</body>
+</html>
