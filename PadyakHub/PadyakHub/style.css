@@ -1,0 +1,498 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+    color:#222;
+}
+
+
+header{
+    background:#2e7d32;
+    padding:15px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+}
+
+nav a{
+    color:white;
+    margin-left:25px;
+    text-decoration:none;
+    font-weight:500;
+}
+
+nav a:hover{
+    color:#c8e6c9;
+}
+
+
+.logo img{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:50%;
+    border:2px solid white;
+}
+
+
+.hero{
+    height:90vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url('banner.jpg') center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    padding-left:80px;
+    color:white;
+}
+
+.hero h1{
+    font-size:50px;
+}
+
+.hero p{
+    margin:10px 0;
+    font-size:18px;
+}
+
+.hero button{
+    margin-top:10px;
+    padding:12px 25px;
+    background:#4caf50;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+.hero button:hover{
+    background:#2e7d32;
+}
+
+
+section{
+    padding:60px;
+    text-align:center;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:25px;
+    margin-top:30px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin-top:10px;
+}
+
+.card p{
+    margin:5px 0;
+    font-weight:bold;
+}
+
+.card button{
+    margin:15px;
+    padding:10px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.card button:hover{
+    background:#1b5e20;
+}
+
+
+.box{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    width:350px;
+    margin:80px auto;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+
+input, select{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+
+button{
+    width:100%;
+    padding:12px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#1b5e20;
+}
+
+
+.item{
+    display:flex;
+    justify-content:space-between;
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+
+footer{
+    background:#2e7d32;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+
+
+.carousel{
+    width:100%;
+    height:420px;
+    overflow:hidden;
+    position:relative;
+    background:#000;
+}
+
+.slides{
+    display:flex;
+    height:100%;
+    width:100%;
+    transition:transform 0.8s ease-in-out;
+    will-change:transform;
+}
+
+.slide{
+    min-width:100%;
+    height:100%;
+    flex-shrink:0;
+    position:relative;
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+}
+
+
+.slide::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:1;
+}
+
+
+.caption{
+    position:absolute;
+    top:50%;
+    left:60px;
+    transform:translateY(-50%);
+    color:white;
+    z-index:2;
+}
+
+.caption h1{
+    font-size:45px;
+}
+
+.caption p{
+    margin-top:10px;
+    font-size:16px;
+}
+
+.btn{
+    display:inline-block;
+    margin:15px;
+    padding:10px 15px;
+    background:#2e7d32;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#1b5e20;
+}
+
+
+#content{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:20px;
+}
+
+.product-card{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    padding:15px;
+    width:220px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-5px);
+}
+
+.product-card img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.product-card h3{
+    margin:10px 0 5px;
+}
+
+.product-card p{
+    color:#2e7d32;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.product-card button{
+    width:100%;
+    padding:10px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.product-card button:hover{
+    background:#1b5e20;
+}
+
+
+@media(max-width:768px){
+    .carousel{
+        height:250px;
+    }
+
+    .caption{
+        left:20px;
+    }
+
+    .caption h1{
+        font-size:28px;
+    }
+}
+
+
+#checkout-popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.popup-box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    width:280px;
+    text-align:center;
+}
+
+.popup-box button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.popup-box button:nth-child(1){
+    background:#2e7d32;
+    color:white;
+}
+
+.popup-box button:nth-child(2){
+    background:#1976d2;
+    color:white;
+}
+
+.popup-box button:nth-child(3){
+    background:#ccc;
+}
+
+/* ================= SUPER ADMIN (ISOLATED FIX) ================= */
+
+/* IMPORTANT: gamitin lang kung superadmin page */
+body.superadmin-page{
+    display:flex;
+    min-height:100vh;
+    background:#f4f4f4;
+}
+
+/* SIDEBAR */
+.superadmin-page .sidebar{
+    width:240px;
+    background:#1b5e20;
+    color:white;
+    padding:20px;
+    position:sticky;
+    top:0;
+    height:100vh;
+}
+
+/* SIDEBAR TITLE */
+.superadmin-page .sidebar h2{
+    margin-bottom:20px;
+}
+
+/* SIDEBAR LINKS */
+.superadmin-page .sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:10px;
+    margin:5px 0;
+    border-radius:6px;
+    transition:0.2s;
+}
+
+.superadmin-page .sidebar a:hover{
+    background:#2e7d32;
+    padding-left:15px;
+}
+
+/* MAIN CONTENT */
+.superadmin-page .main{
+    flex:1;
+    padding:20px;
+}
+
+/* CARDS */
+.superadmin-page .card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+
+/* LIST ITEMS */
+.superadmin-page #admins p,
+.superadmin-page #users p,
+.superadmin-page #orders p{
+    padding:8px;
+    border-bottom:1px solid #eee;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    body.superadmin-page{
+        flex-direction:column;
+    }
+
+    .superadmin-page .sidebar{
+        width:100%;
+        height:auto;
+    }
+}
+
+/* ================= FINAL NAVBAR FIX ================= */
+
+header{
+    background:#2e7d32;
+    padding:15px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+}
+
+/* IMPORTANT: make nav row aligned */
+nav{
+    display:flex;
+    align-items:center;
+}
+
+/* nav links same line spacing */
+nav a{
+    color:white;
+    margin-left:25px;
+    text-decoration:none;
+    font-weight:500;
+}
+
+/* auth area FIX (login/logout + dashboard same row) */
+#authArea{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+/* login/logout same style as nav links */
+#authArea a,
+#authArea button{
+    color:white;
+    font-size:16px;
+    font-weight:500;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+}
+
+/* hover consistency */
+nav a:hover,
+#authArea a:hover,
+#authArea button:hover{
+    color:#c8e6c9;
+}
