@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header>
+    <h2>User Dashboard</h2>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="order.html">Order</a>
+        <a href="cart.html">Cart</a>
+		 <a href="services.html">Services</a>
+        <a href="login.html" onclick="logout()">Logout</a>
+    </nav>
+</header>
+
+<div class="box">
+
+    <h2>Welcome, <span id="user"></span></h2>
+
+    <div class="item">
+        <span>Account Status</span>
+        <span>Active</span>
+    </div>
+
+    <div class="item">
+        <span>Cart Items</span>
+        <span id="cartCount">0</span>
+    </div>
+
+    <div class="item">
+        <span>Role</span>
+        <span>User</span>
+    </div>
+
+</div>
+
+<script>
+let user = localStorage.getItem("currentUser");
+
+if(!user){
+    location.href = "login.html";
+}
+
+document.getElementById("user").innerText = user;
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+document.getElementById("cartCount").innerText = cart.length;
+</script>
+
+</body>
+</html>
