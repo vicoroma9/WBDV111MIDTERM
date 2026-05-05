@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Super Admin</title>
+
+<style>
+body{
+    display:flex;
+    margin:0;
+    font-family:Arial;
+}
+
+.sidebar{
+    width:240px;
+    background:#1b5e20;
+    color:white;
+    height:100vh;
+    padding:20px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    padding:10px;
+    text-decoration:none;
+    border-bottom:1px solid #ffffff30;
+}
+
+.sidebar a:hover{
+    background:#2e7d32;
+}
+
+.main{
+    flex:1;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 0 10px #00000020;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h3>Super Admin</h3>
+    <a href="login.html">Logout</a>
+</div>
+
+<div class="main">
+
+    <div class="card">
+        <h2>Dashboard</h2>
+        <p id="track"></p>
+    </div>
+
+    <div class="card">
+        <h3>Users</h3>
+        <div id="users"></div>
+    </div>
+
+    <div class="card">
+        <h3>Transactions & Bookings</h3>
+        <div id="reportList"></div>
+    </div>
+
+</div>
+
+<script>
+
+// ================= AUTH =================
+let user = localStorage.getItem("currentUser");
+let role = localStorage.getItem("role");
+
+if(!user || role !== "superadmin"){
+    alert("Access denied!");
+    location.href = "login.html";
+}
+
+document.getElementById("track").innerText =
+"Logged in as: " + user + " (" + role + ")";
+
+// ================= USERS =================
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+document.getElementById("users").innerHTML =
+users.length
+? users.map(u => `<p>${u.username} - ${u.role}</p>`).join("")
+: "No users";
+
+// ================= ORDERS + BOOKINGS =================
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+let report = document.getElementById("reportList");
+
+let html = "";
+
+// ORDERS
+if(orders.length > 0){
+    html += "<h3>🛒 Orders</h3>";
+
+    orders.forEach(o => {
+        html += `
+        <div class="card">
+            👤 ${o.user}<br>
+            🛒 Items: ${o.items.length}<br>
+            💰 ₱${o.total}<br>
+            📅 ${o.date}
+        </div>`;
+    });
+}
+
+// BOOKINGS
+if(bookings.length > 0){
+    html += "<h3>🛠 Bookings</h3>";
+
+    bookings.forEach(b => {
+        html += `
+        <div class="card">
+            👤 ${b.user}<br>
+            🛠 ${b.service}<br>
+            📅 ${b.datetime}<br>
+            📌 ${b.status}
+        </div>`;
+    });
+}
+
+if(orders.length === 0 && bookings.length === 0){
+    html = "No transactions yet";
+}
+
+report.innerHTML = html;
+
+</script>
+
+</body>
+</html>
