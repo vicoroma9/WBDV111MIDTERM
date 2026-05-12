@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PadyakHub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+#home::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle, rgba(46,125,50,0.2), transparent 60%);
+    z-index:1;
+}
+
+#home::before{
+    content:"";
+    position:absolute;
+    inset:0; /* mas stable kaysa top/left 50% */
+
+    background:url('logo.jpg');
+    background-repeat:no-repeat;
+
+    background-position:center;
+    background-size:40%; /* 🔥 dito mo control size */
+
+    opacity:0.15;
+    pointer-events:none;
+    z-index:1;
+}
+
+#home .hero{
+    position:relative;
+    z-index:2;
+}
+
+@keyframes floatLogo{
+    0%{ transform:translate(-50%,-50%) scale(1); }
+    50%{ transform:translate(-50%,-52%) scale(1.05); }
+    100%{ transform:translate(-50%,-50%) scale(1); }
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+}
+
+.cart-item button{
+    background:#c62828;
+    color:#fff;
+    border:none;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.cart-item button:hover{
+    background:#b71c1c;
+}
+
+.cart-header{
+    background:#2e7d32;
+    color:#fff;
+    padding:15px;
+    font-size:18px;
+    font-weight:700;
+    text-align:center;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.dashboard,
+.modal,
+#cart {
+    pointer-events: auto;
+}
+
+.sidebar button{
+    width:100%;
+    padding:12px 14px;
+    margin:6px 0;
+
+    border:none;
+    border-radius:10px;
+
+    background:#2e7d32;
+    color:#fff;
+
+    font-weight:600;
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:0.2s ease;
+    text-align:left;
+}
+
+/* hover effect */
+.sidebar button:hover{
+    background:#43a047;
+    transform:translateX(4px);
+}
+
+/* active look (optional future use) */
+.sidebar button.active{
+    background:#1b5e20;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+
+/* ================= RESET ================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter', sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:#2e7d32;
+    overflow-x:hidden;
+}
+
+/* ================= SECTIONS SYSTEM ================= */
+section{
+    display:none;
+}
+
+section.active{
+    display:block;
+}
+
+/* HOME SPECIAL FIX */
+#home.active{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    height:75px;
+    padding:0 30px;
+    background:#fff;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:9999;
+}
+
+.nav-center{
+    flex:1;
+    display:flex;
+    justify-content:center;
+}
+
+.nav-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.brand{
+    flex:0;
+    font-weight:900;
+    color:#2e7d32;
+    font-size:22px;
+    letter-spacing:1px;
+}
+
+.nav-links{
+    display:flex;
+    gap:12px;
+    list-style:none;
+}
+
+.nav-links li{
+    display: inline-flex;
+}
+
+.nav-links button{
+    background:transparent;
+    border:2px solid #2e7d32;
+    color:#2e7d32;
+    padding:9px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.nav-links button:hover{
+    background:#2e7d32;
+    color:#fff;
+}
+
+.navbar > div:last-child{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+/* ================= BUTTON ================= */
+.btn{
+    background:#2e7d32;
+    color:#fff;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.btn:hover{
+    background:#1b5e20;
+}
+
+/* ================= PAGE WRAPPER ================= */
+.page{
+    background:#fff;
+    max-width:1100px;
+    margin:110px auto 40px auto;
+    padding:30px;
+    border-radius:18px;
+}
+
+.page h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+/* ================= HOME ================= */
+#home{
+    min-height:100vh;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('img/bike-bg.jpg');
+
+    background-size:cover;
+    background-position:center;
+}
+
+.hero{
+    color:#fff;
+}
+
+.hero h1{
+    font-size:72px;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.hero p{
+    font-size:24px;
+    margin:15px 0 25px;
+}
+
+/* ================= GRID ================= */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:16px;
+}
+
+/* ================= CARD ================= */
+.card{
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid #eee;
+    box-shadow:0 8px 18px rgba(0,0,0,0.08);
+    display:flex;
+    flex-direction:column;
+    aspect-ratio:1 / 1;
+}
+
+.card img{
+    width:100%;
+    height:50%;
+    object-fit:contain;
+    background:#fff;
+    padding:8px;
+}
+
+.card-content{
+    flex:1;
+    padding:8px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    text-align:center;
+}
+
+.card h3{font-size:14px;}
+.card p{font-size:12px;}
+.card h4{font-size:14px; color:#1b5e20;}
+
+/* ================= FILTER ================= */
+.filters{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:20px 0;
+}
+
+.filter-btn{
+    padding:10px 16px;
+    border-radius:50px;
+    border:2px solid #2e7d32;
+    background:#fff;
+    color:#2e7d32;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.filter-btn.active{
+    background:#1b5e20;
+    color:#fff;
+}
+
+/* ================= SERVICES FIX ================= */
+.category{
+    margin:30px auto;
+    max-width:1100px;
+}
+
+.category-header{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.category-header h3{
+    color:#2e7d32;
+    font-size:28px;
+}
+
+/* SERVICES GRID SMALLER */
+.services-grid .card{
+    aspect-ratio:1 / 1;
+}
+
+.services-grid .card img{
+    height:45%;
+}
+
+/* ================= CART ================= */
+#cart{
+    position:fixed;
+    right:-400px;
+    top:0;
+    width:340px;
+    height:100vh;
+    background:#fff;
+    transition:0.3s ease;
+    padding:25px;
+    z-index:999999; /* 🔥 IMPORTANT FIX */
+    box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+}
+
+/* ================= MODAL ================= */
+.modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.6);
+    z-index:99999999;
+}
+
+.modal-box{
+    background:#fff;
+    width:340px;
+    padding:25px;
+    border-radius:18px;
+}
+
+/* ================= DASHBOARD FIX ================= */
+
+.navbar *{
+    box-sizing: border-box;
+}
+
+.dashboard{
+    position:fixed;
+    inset:0;
+    display:none;
+    z-index:99999;
+    background:#f5f5f5;
+}
+
+.dashboard.active{
+    display:flex !important;
+    width:100%;
+    height:100vh;
+}
+
+.dashboard-wrapper{
+    display:flex;
+    width:100%;
+    height:100%;
+}
+
+/* FORCE PROPER LAYOUT */
+.dashboard.active .dashboard-wrapper{
+    height:100vh;
+}
+
+.sidebar{
+    width:220px;
+    min-width:220px;
+    height:100vh;
+    background:#1b5e20;
+    color:#fff;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.content{
+    flex:1;
+    min-height:100vh;
+    overflow-y:auto;
+    padding:20px;
+}
+
+.panel{
+    display:none;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+}
+
+.panel.active-panel{
+    display:block;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="brand">PadyakHub</div>
+
+    <div class="nav-center">
+        <ul class="nav-links">
+            <li><button onclick="go('home')">Home</button></li>
+            <li><button onclick="go('parts')">Parts & Services</button></li>
+            <li><button onclick="go('about')">About</button></li>
+            <li><button onclick="go('contact')">Contact</button></li>
+        </ul>
+    </div>
+
+    <div class="nav-right">
+
+        <span data-user style="display:none;"></span>
+
+        <button class="btn" onclick="openCart()">🛒 <span id="count">0</span></button>
+
+        <button class="btn" onclick="openLogin()" data-login>Login</button>
+
+        <button class="btn" onclick="logout()" data-logout style="display:none;">Logout</button>
+
+    </div>
+
+</div>
+
+<!-- HOME -->
+<section id="home" class="active">
+
+    <div class="hero">
+		<p>Welcome To</p>
+        <h1>PadyakHub</h1>
+        <p>Bike Parts & Services</p>
+
+        <button class="btn" onclick="go('parts')">Buy Now</button>
+    </div>
+</section>
+
+<!-- PARTS & SERVICES -->
+<section id="parts">
+
+    <div class="page">
+
+        <h2>Parts & Services</h2>
+
+        <!-- CATEGORY FILTER BUTTONS -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filter('all', this)">All</button>
+            <button class="filter-btn" onclick="filter('tire', this)">Bike Tires</button>
+            <button class="filter-btn" onclick="filter('brake', this)">Brake Set</button>
+            <button class="filter-btn" onclick="filter('chain', this)">Bike Chain</button>
+            <button class="filter-btn" onclick="filter('handlebar', this)">Handlebar</button>
+            <button class="filter-btn" onclick="filter('service', this)">Services</button>
+        </div>
+
+
+        <!-- BIKE TIRE -->
+        <div class="grid">
+
+            <div class="card" data-category="tire">
+                <img src="roadtire.jpg">
+                <div class="card-content">
+                    <h3>Road Tire 26"</h3>
+                    <p>Smooth and lightweight tire for speed riding.</p>
+                    <h4>₱500</h4>
+                    <button class="btn" onclick="add('Road Tire 26')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="tire">
+                <img src="mountain.jpg">
+                <div class="card-content">
+                    <h3>Mountain Tire 29"</h3>
+                    <p>Strong grip tire for rough terrain adventures.</p>
+                    <h4>₱800</h4>
+                    <button class="btn" onclick="add('Mountain Tire 29')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="tire">
+                <img src="fat.jpg">
+                <div class="card-content">
+                    <h3>Fat Tire</h3>
+                    <p>Wide tire built for stability and off-road riding.</p>
+                    <h4>₱900</h4>
+                    <button class="btn" onclick="add('Fat Tire')">Add to Cart</button>
+                </div>
+            </div>
+			
+			<div class="card" data-category="tire">
+    <img src="hybrid.jpg">
+    <div class="card-content">
+        <h3>Hybrid Tire</h3>
+        <p>Perfect for city and trail rides.</p>
+        <h4>₱650</h4>
+        <button class="btn" onclick="add('Hybrid Tire')">Add to Cart</button>
+    </div>
+</div>
+
+<div class="card" data-category="tire">
+    <img src="urban.jpg">
+    <div class="card-content">
+        <h3>Urban Tire</h3>
+        <p>A flexible, robust nylon fiber layer provides maximum puncture resistance without adding significant weight.</p>
+        <h4>₱400</h4>
+        <button class="btn" onclick="add('Kids Bike Tire')">Add to Cart</button>
+    </div>
+</div>
+
+        </div>
+
+
+        <!-- BRAKE -->
+        <div class="grid">
+
+            <div class="card" data-category="brake">
+                <img src="hydraulic.jpg">
+                <div class="card-content">
+                    <h3>Hydraulic Brake</h3>
+                    <p>Powerful braking performance with smooth control.</p>
+                    <h4>₱1200</h4>
+                    <button class="btn" onclick="add('Hydraulic Brake')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="brake">
+                <img src="mechanical.jpg">
+                <div class="card-content">
+                    <h3>Mechanical Brake</h3>
+                    <p>Durable brake system with easy maintenance.</p>
+                    <h4>₱700</h4>
+                    <button class="btn" onclick="add('Mechanical Brake')">Add to Cart</button>
+                </div>
+            </div>
+			
+			<div class="card" data-category="brake">
+   <img src="discbrake.jpg">
+   <div class="card-content">
+      <h3>Disc Brake</h3>
+      <p>Reliable stopping power.</p>
+      <h4>₱950</h4>
+      <button class="btn" onclick="add('Disc Brake')">Add to Cart</button>
+   </div>
+</div>
+
+<div class="card" data-category="brake">
+   <img src="racingbrake.jpg">
+   <div class="card-content">
+      <h3>Racing Brake</h3>
+      <p>Constructed to handle heavy loads without brake fade.</p>
+      <h4>₱950</h4>
+      <button class="btn" onclick="add('Disc Brake')">Add to Cart</button>
+   </div>
+</div>
+
+<div class="card" data-category="brake">
+   <img src="discbrake.jpg">
+   <div class="card-content">
+      <h3>Disc Brake</h3>
+      <p>Reliable stopping power.</p>
+      <h4>₱950</h4>
+      <button class="btn" onclick="add('Disc Brake')">Add to Cart</button>
+   </div>
+</div>
+
+        </div>
+
+
+        <!-- CHAIN -->
+        <div class="grid">
+
+            <div class="card" data-category="chain">
+                <img src="steel.jpg">
+                <div class="card-content">
+                    <h3>Steel Chain</h3>
+                    <p>Strong chain for everyday bike use.</p>
+                    <h4>₱300</h4>
+                    <button class="btn" onclick="add('Steel Chain')">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="card" data-category="chain">
+                <img src="heavyduty.jpg">
+                <div class="card-content">
+                    <h3>Heavy Duty Chain</h3>
+                    <p>Extra durability for long rides.</p>
+                    <h4>₱300</h4>
+                    <button class="btn" onclick="add('Heavy Duty Chain')">Add to Cart</button>
+                </div>
+            </div>
+			
+			<div class="card" data-category="chain">
+   <img src="rustfree.jpg">
+   <div class="card-content">
+      <h3>Rust Free Chain</h3>
+      <p>Premium rust-resistant chain.</p>
+      <h4>₱450</h4>
+      <button class="btn" onclick="add('Gold Chain')">Add to Cart</button>
+   </div>
+</div>
+
+<div class="card" data-category="chain">
+   <img src="speedchain.jpg">
+   <div class="card-content">
+      <h3>Speed Chain</h3>
+      <p>Premium rust-resistant chain.</p>
+      <h4>₱450</h4>
+      <button class="btn" onclick="add('Gold Chain')">Add to Cart</button>
+   </div>
+</div>
+
+<div class="card" data-category="chain">
+   <img src="pro.jpg">
+   <div class="card-content">
+      <h3>Pro Chain</h3>
+      <p>Premium rust-resistant chain.</p>
+      <h4>₱450</h4>
+      <button class="btn" onclick="add('Gold Chain')">Add to Cart</button>
+   </div>
+</div>
+
+        </div>
+
+
+ <!-- HANDLEBAR -->
+<div class="grid">
+
+    <div class="card" data-category="handlebar">
+        <img src="racinghandlebar.jpg">
+        <div class="card-content">
+            <h3>Racing Handlebar</h3>
+            <p>Aerodynamic design for speed cycling.</p>
+            <h4>₱700</h4>
+            <button class="btn" onclick="add('Racing Handlebar')">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="card" data-category="handlebar">
+        <img src="comforthandlebar.jpg">
+        <div class="card-content">
+            <h3>Comfort Handlebar</h3>
+            <p>Relaxed grip for long rides.</p>
+            <h4>₱700</h4>
+            <button class="btn" onclick="add('Comfort Handlebar')">Add to Cart</button>
+        </div>
+    </div>
+	
+	<div class="card" data-category="handlebar">
+   <img src="mountainhandlebar.jpg">
+   <div class="card-content">
+      <h3>Mountain Handlebar</h3>
+      <p>Best for road racing.</p>
+      <h4>₱850</h4>
+      <button class="btn" onclick="add('Drop Bar')">Add to Cart</button>
+   </div>
+</div>
+
+<div class="card" data-category="handlebar">
+   <img src="foldablehandlebar.jpg">
+   <div class="card-content">
+      <h3>Foldable Handlebar</h3>
+      <p>Best for road racing.</p>
+      <h4>₱850</h4>
+      <button class="btn" onclick="add('Drop Bar')">Add to Cart</button>
+   </div>
+</div>
+
+<div class="card" data-category="handlebar">
+   <img src="progrip.jpg">
+   <div class="card-content">
+      <h3>Pro Grip Handlebar</h3>
+      <p>Best for road racing.</p>
+      <h4>₱850</h4>
+      <button class="btn" onclick="add('Drop Bar')">Add to Cart</button>
+   </div>
+</div>
+
+</div>
+        <!-- SERVICES -->
+<div class="category">
+
+    <div class="grid services-grid">
+
+        <div class="card" data-category="service">
+            <img src="bikerepair.jpg">
+            <div class="card-content">
+                <h3>Bike Repair</h3>
+                <p>Fix broken parts professionally.</p>
+                <h4>₱500</h4>
+                <button class="btn" onclick="book('Bike Repair')">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card" data-category="service">
+            <img src="bikemaintenance.jpg">
+            <div class="card-content">
+                <h3>Maintenance</h3>
+                <p>Regular check-up service.</p>
+                <h4>₱500</h4>
+                <button class="btn" onclick="book('Bike Maintenance')">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card" data-category="service">
+            <img src="bikecleaning.jpg">
+            <div class="card-content">
+                <h3>Cleaning</h3>
+                <p>Deep cleaning service.</p>
+                <h4>₱500</h4>
+                <button class="btn" onclick="book('Bike Cleaning')">Book Now</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</section>
+
+<section id="about">
+<div class="page">
+
+<h2>About Us</h2>
+
+<p class="info-text">
+Welcome to <b>PadyakHub</b> — your all-in-one bike parts and services hub in Valenzuela City, built to make 
+cycling more convenient, reliable, and accessible for every rider. We offer high-quality bicycle parts, expert
+repair services, and regular maintenance to keep your bike in top condition. From daily commuters to professional cyclists,
+we've got everything you need to keep your ride performing at its best and with our online booking system, you can schedule repairs and maintenance anytime, anywhere, hassel-free.
+</p>
+
+<!-- MAP -->
+<div style="margin-top:25px; display:flex; justify-content:center;">
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.9!2d120.9596!3d14.7006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b3f0b1b1b1b1%3A0xvalenzuela!2sValenzuela%20City!5e0!3m2!1sen!2sph!4v0000000000000"
+        width="100%"
+        height="350"
+        style="border:0; border-radius:12px; max-width:900px;"
+        allowfullscreen=""
+        loading="lazy">
+    </iframe>
+	</div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="page">
+
+        <h2>Contact Us / Feedback</h2>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+
+           <!-- INFO -->
+            <div class="contact-info">
+                <h3>📍 Visit Us</h3>
+                <p>PadyakHub Bike Shop<br>Valenzuela City</p>
+
+                <h3>📞 Call</h3>
+                <p>+63 912 345 6789</p>
+
+                <h3>📧 Email</h3>
+                <p>support@padyakhub.com</p>
+
+                <h3>🕒 Hours</h3>
+                <p>Mon - Sun | 8AM - 8PM</p>
+            </div>
+			
+			<!-- FORM -->
+            <div>
+
+                <input id="c-name" placeholder="Full Name" style="width:100%; padding:10px; margin-bottom:10px;">
+                
+                <input id="c-email" placeholder="Email" style="width:100%; padding:10px; margin-bottom:10px;">
+                
+                <input id="c-phone" placeholder="Contact Number" style="width:100%; padding:10px; margin-bottom:10px;">
+
+                <select id="c-type" style="width:100%; padding:10px; margin-bottom:10px;">
+                    <option value="feedback">Feedback</option>
+                    <option value="concern">Concern</option>
+                    <option value="complaint">Complaint</option>
+                </select>
+
+                <textarea id="c-message" placeholder="Your message..." style="width:100%; padding:10px; height:120px;"></textarea>
+
+                <button class="btn" onclick="submitContact()" style="width:100%; margin-top:10px;">
+                    Submit
+                </button>
+
+            </div>
+
+        </div>
+</section>
+
+
+<!-- ADMIN DASHBOARD -->
+<section id="admin-dashboard" class="dashboard">
+
+    <div class="dashboard-wrapper">
+
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+
+            <button onclick="showPanel('admin-home')">Dashboard</button>
+            <button onclick="showPanel('admin-users')">User Management</button>
+            <button onclick="showPanel('admin-products')">Product Management</button>
+            <button onclick="showPanel('admin-profile')">Profile Management</button>
+            <button onclick="showPanel('admin-transactions')">Transactions</button>
+
+            <button onclick="logout()" style="margin-top:20px; background:#c62828;">
+                Log Out
+            </button>
+        </div>
+
+        <div class="content">
+
+            <div id="admin-home" class="panel active-panel">
+                <h2>Welcome Admin 👋</h2>
+            </div>
+
+            <div id="admin-users" class="panel">
+			<h2>User Management (Admin)</h2>
+			<table border="1" width="100%" style="margin-top:10px; background:#fff;">
+			<thead>
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="admin-user-table"></tbody>
+    </table>
+</div>
+
+            <div id="admin-products" class="panel">
+                <h2>Product Management</h2>
+            </div>
+
+            <div id="admin-profile" class="panel">
+                <h2>Profile Management</h2>
+            </div>
+
+            <div id="admin-transactions" class="panel">
+                <h2>Transactions</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SUPER ADMIN -->
+<section id="superadmin-dashboard" class="dashboard">
+
+    <div class="dashboard-wrapper">
+
+        <div class="sidebar">
+            <h2>Super Admin</h2>
+
+            <button onclick="showPanel('super-home')">Dashboard</button>
+            <button onclick="showPanel('super-reports')">Reports</button>
+            <button onclick="showPanel('super-admins')">Admin Accounts</button>
+            <button onclick="showPanel('super-users')">User Accounts</button>
+            <button onclick="showPanel('super-settings')">System Settings</button>
+
+            <button onclick="logout()" style="margin-top:20px; background:#c62828;">
+                Log Out
+            </button>
+        </div>
+
+        <div class="content">
+
+            <div id="super-home" class="panel active-panel">
+                <h2>Super Admin Dashboard ⚡</h2>
+            </div>
+
+            <div id="super-reports" class="panel">
+                <h2>Reports</h2>
+            </div>
+
+            <div id="super-admins" class="panel">
+                <h2>Admin Accounts</h2>
+            </div>
+
+            <div id="super-users" class="panel">
+    <h2>All Accounts (Super Admin)</h2>
+
+    <table border="1" width="100%" style="margin-top:10px; background:#fff;">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Change Role</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="super-user-table"></tbody>
+    </table>
+</div>
+
+            <div id="super-settings" class="panel">
+                <h2>System Settings</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- CART -->
+<div id="cart">
+
+<h3 style="background:#2e7d32; color:#fff; padding:10px; border-radius:8px;">
+🛒 Shopping Cart
+</h3>
+
+<div id="items"></div>
+
+<br>
+
+<button class="btn" onclick="checkout()" style="width:100%; margin-top:10px;">
+Checkout
+</button>
+
+<button class="btn" onclick="closeCart()" style="width:100%; margin-top:10px; background:#555;">
+Close Cart
+</button>
+
+</div>
+
+<!-- LOGIN -->
+<div class="modal" id="login">
+
+  <div class="modal-box">
+
+    <button onclick="closeLogin()"
+        style="
+            float:right;
+            border:none;
+            background:none;
+            font-size:22px;
+            cursor:pointer;">
+        ×
+    </button>
+
+    <h3>Login</h3>
+
+    <!-- DEMO ACCOUNTS (HINDI MAWAWALA) -->
+    <p style="font-size:13px; margin-bottom:10px;">
+        Demo Accounts:<br>
+        <b>user</b> / 1234<br>
+        <b>admin</b> / 1234<br>
+        <b>superadmin</b> / 1234
+    </p>
+
+    <!-- LOGIN INPUTS -->
+    <input id="u" placeholder="Username">
+    <input id="p" type="password" placeholder="Password">
+
+    <!-- BUTTONS -->
+    <div style="display:flex; gap:10px; margin-top:10px;">
+    <button class="btn" onclick="login()" style="flex:1;">Login</button>
+    <button class="btn" onclick="toggleRegister()" style="flex:1;">Register</button>
+</div>
+
+<button class="btn"
+        onclick="closeLogin()"
+        style="width:100%; margin-top:10px; background:#555;">
+    Close
+</button>
+
+    <!-- REGISTER FORM -->
+    <div id="register-form" style="display:none; margin-top:15px;">
+
+        <input id="reg-u" placeholder="Username">
+        <input id="reg-p" type="password" placeholder="Password">
+
+        <select id="reg-role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+            <option value="superadmin">Super Admin</option>
+        </select>
+
+        <button class="btn" onclick="register()" style="width:100%; margin-top:10px;">
+            Create Account
+        </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+function submitContact(){
+
+    if(!requireLogin()) return;
+
+    let name = document.getElementById("c-name").value.trim();
+    let email = document.getElementById("c-email").value.trim();
+    let phone = document.getElementById("c-phone").value.trim();
+    let type = document.getElementById("c-type").value;
+    let message = document.getElementById("c-message").value.trim();
+
+    if(!name || !email || !phone || !message){
+        alert("Please fill all fields!");
+        return;
+    }
+
+    let contacts =
+        JSON.parse(localStorage.getItem("contacts")) || [];
+
+    contacts.push({
+        name,
+        email,
+        phone,
+        type,
+        message,
+        time:new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+        "contacts",
+        JSON.stringify(contacts)
+    );
+
+    alert("Message sent successfully!");
+
+    document.getElementById("c-name").value="";
+    document.getElementById("c-email").value="";
+    document.getElementById("c-phone").value="";
+    document.getElementById("c-message").value="";
+}
+
+function loadTransactions(){
+
+    let logs = getLogs();
+
+    let checkoutLogs = logs.filter(log => log.type === "CHECKOUT");
+
+    let html = "";
+
+    checkoutLogs.forEach(log => {
+
+        html += `
+        <div style="
+            background:#fff;
+            padding:10px;
+            margin:10px 0;
+            border-radius:10px;
+            border:1px solid #ddd;
+        ">
+            <b>User:</b> ${log.actor} <br>
+            <b>Role:</b> ${log.role} <br>
+            <b>Items:</b> ${log.items.join(", ")} <br>
+            <b>Total:</b> ${log.totalItems} <br>
+            <b>Time:</b> ${log.time}
+        </div>
+        `;
+    });
+
+    document.getElementById("admin-transactions").innerHTML = html;
+    document.getElementById("super-reports").innerHTML = html;
+}
+
+function showPanel(id){
+    document.querySelectorAll(".panel")
+    .forEach(p => p.classList.remove("active-panel"));
+
+    let el = document.getElementById(id);
+    if(el){
+        el.classList.add("active-panel");
+    }
+}
+
+function updateNavbarByRole(){
+
+    let user = JSON.parse(localStorage.getItem("currentUser"));
+
+    let loginBtn = document.querySelector("[data-login]");
+    let logoutBtn = document.querySelector("[data-logout]");
+    let userLabel = document.querySelector("[data-user]");
+
+    if(!user){
+        if(loginBtn) loginBtn.style.display = "inline-block";
+        if(logoutBtn) logoutBtn.style.display = "none";
+        if(userLabel) userLabel.style.display = "none";
+        return;
+    }
+
+    if(user.role === "user"){
+        if(loginBtn) loginBtn.style.display = "none";
+        if(logoutBtn) logoutBtn.style.display = "inline-block";
+
+        if(userLabel){
+            userLabel.style.display = "inline-block";
+            userLabel.innerText = "USER: " + user.username;
+        }
+    }
+
+    else if(user.role === "admin"){
+        if(loginBtn) loginBtn.style.display = "none";
+        if(logoutBtn) logoutBtn.style.display = "inline-block";
+
+        if(userLabel){
+            userLabel.style.display = "inline-block";
+            userLabel.innerText = "ADMIN: " + user.username;
+        }
+    }
+
+    else if(user.role === "superadmin"){
+        if(loginBtn) loginBtn.style.display = "none";
+        if(logoutBtn) logoutBtn.style.display = "inline-block";
+
+        if(userLabel){
+            userLabel.style.display = "inline-block";
+            userLabel.innerText = "SUPERADMIN: " + user.username;
+        }
+    }
+}
+
+function getLogs(){
+    return JSON.parse(localStorage.getItem("logs")) || [];
+}
+
+function saveLogs(logs){
+    localStorage.setItem("logs", JSON.stringify(logs));
+}
+
+function resetUIState(){
+    document.body.style.pointerEvents = "auto";
+
+    document.querySelectorAll("*").forEach(el=>{
+        el.style.pointerEvents = "auto";
+    });
+}
+
+function changeRole(index, newRole){
+
+    let users = getUsers();
+    let actor = JSON.parse(localStorage.getItem("currentUser"));
+
+    let targetUser = users[index];
+    let oldRole = targetUser.role;
+
+    targetUser.role = newRole;
+
+    saveUsers(users);
+
+    // 🔥 LOG ACTION
+    let logs = getLogs();
+
+    logs.push({
+        type: "ROLE_CHANGE",
+        actor: actor ? actor.username : "unknown",
+        target: targetUser.username,
+        fromRole: oldRole,
+        toRole: newRole,
+        time: new Date().toLocaleString()
+    });
+
+    saveLogs(logs);
+
+    loadSuperUsers();
+}
+
+function deleteUser(index){
+
+    let users = getUsers();
+    let actor = JSON.parse(localStorage.getItem("currentUser"));
+
+    let deletedUser = users[index];
+
+    users.splice(index, 1);
+    saveUsers(users);
+
+    // 🔥 LOG ACTION
+    let logs = getLogs();
+
+    logs.push({
+        type: "DELETE_USER",
+        actor: actor ? actor.username : "unknown",
+        target: deletedUser.username,
+        time: new Date().toLocaleString()
+    });
+
+    saveLogs(logs);
+
+    loadAdminUsers();
+    loadSuperUsers();
+}
+
+function loadSuperUsers(){
+
+    let users = getUsers();
+
+    // 🔥 DEBUG HERE
+    console.log("SUPERADMIN VIEW (ALL USERS):", users);
+
+    let tbody = "";
+
+    users.forEach((u, index)=>{
+
+        tbody += `
+        <tr>
+            <td>${u.username}</td>
+            <td>${u.role}</td>
+            <td>
+                <select onchange="changeRole(${index}, this.value)">
+                    <option ${u.role==="user"?"selected":""}>user</option>
+                    <option ${u.role==="admin"?"selected":""}>admin</option>
+                    <option ${u.role==="superadmin"?"selected":""}>superadmin</option>
+                </select>
+            </td>
+            <td>
+                <button onclick="deleteUser(${index})">Delete</button>
+            </td>
+        </tr>`;
+    });
+
+    document.getElementById("super-user-table").innerHTML = tbody;
+}
+
+function loadAdminUsers(){
+
+    let users = getUsers();
+
+    // 🔥 DEBUG HERE
+    console.log("ADMIN USERS:", users.filter(u=>u.role==="user"));
+    console.log("ALL USERS (ADMIN VIEW):", users);
+
+    let tbody = "";
+
+    users
+    .filter(u => u.role === "user")
+    .forEach((u, index)=>{
+
+        tbody += `
+        <tr>
+            <td>${u.username}</td>
+            <td>${u.role}</td>
+            <td>
+                <button onclick="deleteUser(${index})">Delete</button>
+            </td>
+        </tr>`;
+    });
+
+    document.getElementById("admin-user-table").innerHTML = tbody;
+}
+
+function checkout(){
+
+    if(cart.length === 0){
+        alert("Walang laman cart!");
+        return;
+    }
+
+    let user = JSON.parse(localStorage.getItem("currentUser"));
+
+    let logs = getLogs();
+
+    logs.push({
+        type: "CHECKOUT",
+        actor: user ? user.username : "guest",
+        role: user ? user.role : "guest",
+        items: [...cart],
+        totalItems: cart.length,
+        time: new Date().toLocaleString()
+    });
+
+    saveLogs(logs);
+
+    alert("Checkout successful!");
+
+    cart = [];
+    document.getElementById("count").innerText = 0;
+    renderCart();
+}
+
+/* ================= GLOBAL ================= */
+let cart = [];
+
+/* ================= UTIL ================= */
+function getUsers(){
+    return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function requireLogin(){
+
+    let user =
+        JSON.parse(localStorage.getItem("currentUser"));
+
+    if(!user){
+        alert("Please login first.");
+        openLogin();
+        return false;
+    }
+
+    return true;
+}
+
+/* ================= INITIAL USERS ================= */
+(function init(){
+    if(!localStorage.getItem("users")){
+    localStorage.setItem("users", JSON.stringify([
+        { username:"user", password:"1234", role:"user" },
+        { username:"admin", password:"1234", role:"admin" },
+        { username:"superadmin", password:"1234", role:"superadmin" }
+    ]));
+}
+})();
+
+/* ================= UI RESET ================= */
+function resetUI(){
+
+    document.getElementById("admin-dashboard").style.display="none";
+    document.getElementById("superadmin-dashboard").style.display="none";
+
+    document.getElementById("admin-dashboard").classList.remove("active");
+    document.getElementById("superadmin-dashboard").classList.remove("active");
+
+    document.getElementById("cart").style.right = "-400px";
+    document.getElementById("login").style.display = "none";
+
+    document.body.style.pointerEvents = "auto";
+
+    document.querySelectorAll("section").forEach(sec=>{
+        sec.classList.remove("active");
+    });
+
+    document.getElementById("home").classList.add("active");
+}
+
+/* ================= NAVIGATION ================= */
+function go(id){
+
+    document.getElementById("admin-dashboard").style.display="none";
+    document.getElementById("superadmin-dashboard").style.display="none";
+
+    document.querySelectorAll("section").forEach(sec=>{
+        sec.classList.remove("active");
+    });
+
+    let target = document.getElementById(id);
+    if(target){
+        target.classList.add("active");
+    }
+}
+
+/* ================= AUTH UI ================= */
+function updateAuthUI(){
+
+    let user = JSON.parse(localStorage.getItem("currentUser"));
+
+    let loginBtn = document.querySelector("[data-login]");
+    let logoutBtn = document.querySelector("[data-logout]");
+    let userLabel = document.querySelector("[data-user]");
+
+    if(user){
+
+        if(loginBtn) loginBtn.style.display = "none";
+        if(logoutBtn) logoutBtn.style.display = "inline-block";
+
+        if(userLabel){
+            userLabel.innerText = "Hi, " + user.username;
+            userLabel.style.display = "inline-block";
+        }
+
+    } else {
+
+        if(loginBtn) loginBtn.style.display = "inline-block";
+        if(logoutBtn) logoutBtn.style.display = "none";
+        if(userLabel) userLabel.style.display = "none";
+    }
+}
+
+/* ================= LOGIN ================= */
+function login(){
+
+    let username = document.getElementById("u").value.trim();
+    let password = document.getElementById("p").value.trim();
+
+    let users = getUsers();
+
+    let foundUser = users.find(u =>
+        u.username === username &&
+        u.password === password
+    );
+
+    if(!foundUser){
+        alert("Invalid login");
+        return;
+    }
+
+    // save current session
+    localStorage.setItem("currentUser", JSON.stringify(foundUser));
+
+    // 🔥 TRACK LOGIN ACTIVITY
+    let logs = JSON.parse(localStorage.getItem("logs")) || [];
+
+    logs.push({
+        type: "LOGIN",
+        user: foundUser.username,
+        role: foundUser.role,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("logs", JSON.stringify(logs));
+
+    // UI updates
+    closeLogin();
+    routeUser(foundUser);
+    updateAuthUI();
+	updateNavbarByRole();
+}
+
+/* ================= REGISTER ================= */
+function register(){
+
+    let username = document.getElementById("reg-u").value.trim();
+    let password = document.getElementById("reg-p").value.trim();
+    let role = document.getElementById("reg-role").value;
+
+    let users = getUsers();
+
+    let exists = users.find(u => u.username === username);
+
+    if(exists){
+        alert("Username already exists!");
+        return;
+    }
+
+    // add new user
+    let newUser = { username, password, role };
+    users.push(newUser);
+    saveUsers(users);
+
+    // 🔥 TRACK REGISTER ACTIVITY
+    let logs = JSON.parse(localStorage.getItem("logs")) || [];
+
+    logs.push({
+        type: "REGISTER",
+        user: username,
+        role: role,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("logs", JSON.stringify(logs));
+
+    alert("Account created!");
+
+    // reset UI
+    document.getElementById("register-form").style.display = "none";
+
+    // optional: clear inputs
+    document.getElementById("reg-u").value = "";
+    document.getElementById("reg-p").value = "";
+}
+
+/* ================= ROLE ROUTING ================= */
+function routeUser(user){
+
+    document.querySelectorAll("section").forEach(sec=>{
+        sec.classList.remove("active");
+    });
+
+    document.getElementById("admin-dashboard").style.display = "none";
+    document.getElementById("superadmin-dashboard").style.display = "none";
+
+    if(user.role === "user"){
+        go("home");
+    }
+
+    else if(user.role === "admin"){
+        document.getElementById("admin-dashboard").style.display = "flex";
+        loadAdminUsers();
+    }
+
+    else if(user.role === "superadmin"){
+        document.getElementById("superadmin-dashboard").style.display = "flex";
+        loadSuperUsers();
+    }
+
+    // 🔥 ALWAYS REFRESH LOGS
+    loadTransactions();
+
+    updateAuthUI();
+}
+
+/* ================= LOGOUT ================= */
+function logout(){
+
+    localStorage.removeItem("currentUser");
+
+    document.getElementById("admin-dashboard").style.display="none";
+    document.getElementById("superadmin-dashboard").style.display="none";
+
+    updateAuthUI();
+	updateNavbarByRole();
+    go("home");
+}
+
+/* ================= CART ================= */
+
+function removeItem(index){
+    cart.splice(index, 1);
+    document.getElementById("count").innerText = cart.length;
+    renderCart();
+}
+
+function add(item){
+
+    if(!requireLogin()) return;
+
+    cart.push(item);
+    document.getElementById("count").innerText = cart.length;
+    renderCart();
+}
+
+function renderCart(){
+    let html = "";
+
+    cart.forEach((i, index)=>{
+        html += `
+        <div class="cart-item">
+            ${i}
+            <button onclick="removeItem(${index})">Remove</button>
+        </div>`;
+    });
+
+    document.getElementById("items").innerHTML = html;
+}
+
+function openCart(){
+
+    if(!requireLogin()) return;
+
+    document.getElementById("cart").style.right = "0";
+}
+
+function closeCart(){
+    document.getElementById("cart").style.right = "-400px";
+}
+
+/* ================= FILTER ================= */
+function filter(category, btn){
+
+    let cards = document.querySelectorAll("#parts .card");
+
+    cards.forEach(card=>{
+        let cat = card.dataset.category;
+        card.style.display =
+            (category === "all" || cat === category) ? "" : "none";
+    });
+
+    document.querySelectorAll(".filter-btn")
+    .forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+}
+
+/* ================= LOGIN MODAL ================= */
+function openLogin(){
+
+    let modal = document.getElementById("login");
+
+    if(!modal) return;
+
+    modal.style.display = "flex";
+    modal.style.position = "fixed";
+    modal.style.inset = "0";
+    modal.style.zIndex = "999999";
+}
+
+function closeLogin(){
+    document.getElementById("login").style.display = "none";
+}
+
+function toggleRegister(){
+
+    let form = document.getElementById("register-form");
+
+    form.style.display =
+        (form.style.display === "block") ? "none" : "block";
+}
+
+/* ================= AUTO LOAD ================= */
+window.onload = function(){
+
+    resetUI();
+
+    let user =
+        JSON.parse(localStorage.getItem("currentUser"));
+
+    updateAuthUI();
+    updateNavbarByRole();
+
+    if(user){
+        routeUser(user);
+    }
+};
+
+</script>
+
+</body>
+</html>
